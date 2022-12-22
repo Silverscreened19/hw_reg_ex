@@ -12,9 +12,15 @@ def phonebook(contacts_list):
     my_list = []
     for i in contacts_list:
         full_name = ' '.join(i[:3]).split(' ')
-        pattern = r'(\+7|8)\s*\(*(495)\)*\s*[-]*(\d{3})[-]*(\d{2})[-]*(\d{2})\s*'
-        result = re.sub(pattern, r'+7(\2)\3-\4-\5', i[5])
-        my_list.append([full_name[0], full_name[1],
+        if 'доб' not in i[5]:
+            pattern = r'(\+7|8)\s*\(*(495)\)*\s*[-]*(\d{3})[-]*(\d{2})[-]*(\d{2})\s*'
+            result = re.sub(pattern, r'+7(\2)\3-\4-\5', i[5])
+            my_list.append([full_name[0], full_name[1],
+                        full_name[2], i[3], i[4], result, i[6]])
+        else:
+            pattern = r'(\+7|8)\s*\(*(495)\)*\s*[-]*(\d{3})[-]*(\d{2})[-]*(\d{2})\s*\(*(\w*[.])\s(\d{4})\)*'
+            result = re.sub(pattern, r'+7(\2)\3-\4-\5 \6\7', i[5])
+            my_list.append([full_name[0], full_name[1],
                         full_name[2], i[3], i[4], result, i[6]])
     return contact_info(my_list)
 
