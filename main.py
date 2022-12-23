@@ -3,11 +3,6 @@ import csv
 import re
 
 
-with open("phonebook_raw.csv") as f:
-    rows = csv.reader(f, delimiter=",")
-    contacts_list = list(rows)
-
-
 def phonebook(contacts_list):
     my_list = []
     for i in contacts_list:
@@ -16,12 +11,12 @@ def phonebook(contacts_list):
             pattern = r'(\+7|8)\s*\(*(495)\)*\s*[-]*(\d{3})[-]*(\d{2})[-]*(\d{2})\s*'
             result = re.sub(pattern, r'+7(\2)\3-\4-\5', i[5])
             my_list.append([full_name[0], full_name[1],
-                        full_name[2], i[3], i[4], result, i[6]])
+                            full_name[2], i[3], i[4], result, i[6]])
         else:
             pattern = r'(\+7|8)\s*\(*(495)\)*\s*[-]*(\d{3})[-]*(\d{2})[-]*(\d{2})\s*\(*(\w*[.])\s(\d{4})\)*'
             result = re.sub(pattern, r'+7(\2)\3-\4-\5 \6\7', i[5])
             my_list.append([full_name[0], full_name[1],
-                        full_name[2], i[3], i[4], result, i[6]])
+                            full_name[2], i[3], i[4], result, i[6]])
     return contact_info(my_list)
 
 
@@ -51,7 +46,11 @@ def contact_info(contacts):
     return result_list
 
 
-with open("phonebook.csv", "w") as f:
-    datawriter = csv.writer(
-        f, delimiter=',')
-    datawriter.writerows(phonebook(contacts_list))
+if __name__ == '__main__':
+    with open("phonebook_raw.csv") as f:
+        rows = csv.reader(f, delimiter=",")
+        contacts_list = list(rows)
+    with open("phonebook.csv", "w") as f:
+        datawriter = csv.writer(
+            f, delimiter=',')
+        datawriter.writerows(phonebook(contacts_list))
